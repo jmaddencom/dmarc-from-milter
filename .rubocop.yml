@@ -1,0 +1,23 @@
+AllCops:
+  TargetRubyVersion: 3.3
+  SuggestExtensions: false
+  NewCops: enable
+Style/StringLiterals:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Metrics/AbcSize:
+  CountRepeatedAttributes: false
+  Max: 25
+Metrics/MethodLength:
+  Max: 25
+Metrics/CyclomaticComplexity:
+  Max: 25
+Metrics/PerceivedComplexity:
+  Max: 15
+
+require:
+  - rubocop-minitest
+
