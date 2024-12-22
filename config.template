@@ -1,0 +1,9 @@
+# The address to use when rewriting the From header. Should be a real address that you own,
+# can DKIM sign for if you so choose, etc.
+dmarc_from_address: dmarc-noreply@your-domain.tld
+
+# An optional array of domains known to have DMARC-like behaviors without
+# properly using DMARC. Senders from these domains will also get the DMARC
+# From header rewrite.
+other_bad_domains:
+  - some-domain-that-acts-like-dmarc.tld

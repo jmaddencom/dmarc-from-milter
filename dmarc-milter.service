@@ -1,0 +1,16 @@
+[Unit]
+Description=DMARC From Header Milter
+After=network.target system.slice systemd-journald.socket home.mount
+Before=postfix.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/dmarc/dmarc-smtp-filter
+User=dmarc
+ExecStart=/bin/bash -lc '/home/dmarc/dmarc-smtp-filter/milter-server.rb'
+KillMode=process
+Restart=always
+Environment=RVM_RUBY=ruby-3.3.6
+
+[Install]
+WantedBy=multi-user.target
