@@ -1,9 +1,13 @@
-ENV["RACK_ENV"] = "test"
+require "simplecov"
+SimpleCov.start do
+  enable_coverage :branch
+end
+
 require "minitest/autorun"
 require "mocha/minitest"
 require "yaml"
-require 'simplecov'
-SimpleCov.start
+
+ENV["RACK_ENV"] = "test"
 require_relative "../lib/dmilter"
 
 class DmarcFilterTest < Minitest::Test
