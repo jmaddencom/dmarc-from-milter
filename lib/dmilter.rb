@@ -73,6 +73,7 @@ class DmarcFilter
     # rubocop:enable Style/RescueStandardError
 
     return false if r.nil?
+
     r.p.to_s == "reject" ||
       r.p.to_s == "quarantine" ||
       r.aspf.to_s == "s" ||

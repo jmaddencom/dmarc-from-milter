@@ -23,8 +23,9 @@ class DmarcFilterTest < Minitest::Test
   end
 
   def test_dmarc_bad_domains
-    ok_dmarc_record = DMARC::Record.new({:v=>:DMARC1, :p=>nil, :rua=>nil })
+    ok_dmarc_record = DMARC::Record.new({ v: :DMARC1, p: nil, rua: nil })
     DMARC::Record.expects(:query).with("some-domain-that-acts-like-dmarc.tld").returns(ok_dmarc_record)
+
     assert @dmf.dmarc?("some-domain-that-acts-like-dmarc.tld")
   end
 
@@ -71,5 +72,13 @@ class DmarcFilterTest < Minitest::Test
     dmf.expects(:dmarc?).with("gmail.com").returns(true)
 
     assert_equal "Jane Doe <#{@our_address}>", dmf.eval("Jane Doe <jdoe@gmail.com>")
+  end
+
+  def test_eval_fixes_invalid_from_header
+    dmf = DmarcFilter.new
+    dmf.expects(:warn).times(3)
+    dmf.expects(:dmarc?).never
+
+    assert_equal @our_address, dmf.eval("invalid_fromline@some-domain.tld>")
   end
 end
