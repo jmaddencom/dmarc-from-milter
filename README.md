@@ -12,7 +12,7 @@ and one of the workarounds suggested to such hosts is to change the From header 
 That's what this milter does. Receiving mail from your MTA it checks `From` headers' domains and modifies those that would reject, quarantine, or otherwise de-prioritize incoming mail with their domain in the `From` header.
 
 ## Installation
-1. dmarc-from-milter is written in ruby and I like RVM, so first head over to [rvm.to](rvm.to) and install that on the machine you intend to run the milter.
+1. dmarc-from-milter is written in ruby and I like RVM, so first head over to [rvm.to](https://rvm.io) and install that on the machine you intend to run the milter.
 1. `git clone` the repo to the directory you'd like the software to run from
     - The default location is /home. If you change this, update the location in `dmarc-milter.service` before installing it.
 1. Install dependencies with `bundle install`
