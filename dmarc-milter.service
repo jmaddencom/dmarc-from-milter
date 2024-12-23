@@ -5,9 +5,9 @@ Before=postfix.service
 
 [Service]
 Type=simple
-WorkingDirectory=/home/dmarc/dmarc-smtp-filter
+WorkingDirectory=/home/dmarc/dmarc-from-milter
 User=dmarc
-ExecStart=/bin/bash -lc '/home/dmarc/dmarc-smtp-filter/milter-server.rb'
+ExecStart=/bin/bash -lc '/home/dmarc/dmarc-from-milter/milter-server.rb'
 KillMode=process
 Restart=always
 Environment=RVM_RUBY=ruby-3.3.6
