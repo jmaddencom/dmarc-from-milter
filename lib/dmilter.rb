@@ -62,8 +62,8 @@ class DmarcFilter
     tries = 0
     begin
       r = DMARC::Record.query(domain)
-    # rubocop:disable Style/RescueStandardError
-    # because I don't know #query might encounter
+      # rubocop:disable Style/RescueStandardError
+      # because I don't know #query might encounter
     rescue
       tries += 1
       sleep 0.2
@@ -73,7 +73,6 @@ class DmarcFilter
     # rubocop:enable Style/RescueStandardError
 
     return false if r.nil?
-
     r.p.to_s == "reject" ||
       r.p.to_s == "quarantine" ||
       r.aspf.to_s == "s" ||

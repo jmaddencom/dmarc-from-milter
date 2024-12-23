@@ -1,0 +1,6 @@
+- Make a Dockerfile for easier deployment
+- Github builds
+- Rubocop pre-commit and build stage
+- Make listen host and port configurable
+- Integration test with a postfix install via docker
+- ERB the configs and make an installer
