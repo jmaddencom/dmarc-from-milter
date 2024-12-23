@@ -2,14 +2,13 @@
 A milter for ESPs that replaces From headers in outbound mail for recipients using DMARC
 
 ## Why?
-Read up on DMARC, SPF, and DKIM elsewhere -- I'm no mail standards expert. Also, I try to write clean ruby and I enjoy it as a language, but I'm also no ruby expert.
+Read up on DMARC, SPF, and DKIM elsewhere -- I'm no expert. (I try to write clean ruby and it's my preferred language but I'm also no ruby expert.)
 
-If you're an ESP such as a mailing list provider you generally send email on
-behalf of subscribers posting to a list by maintaining their original `From`
-header but injecting your own envelope sender. DMARC breaks this behavior
-and one of the workarounds suggested to such hosts is to change the From header to something the host owns.
+If you're an ESP such as a mailing list provider you generally send email on behalf of subscribers posting to a list by maintaining their original `From` header but injecting your own envelope sender. DMARC breaks this behavior and one of the workarounds suggested to such hosts is to change the From header to something the host owns. 
 
 That's what this milter does. Receiving mail from your MTA it checks `From` headers' domains and modifies those that would reject, quarantine, or otherwise de-prioritize incoming mail with their domain in the `From` header.
+
+This milter is how DMARC mitigation is done at [FreeLists](https://www.freelists.org)
 
 ## Installation
 1. dmarc-from-milter is written in ruby and I like RVM, so first head over to [rvm.to](https://rvm.io) and install that on the machine you intend to run the milter.
@@ -32,7 +31,7 @@ That's what this milter does. Receiving mail from your MTA it checks `From` head
         -o milter_default_action=reject
     ```
 1. Verify outbound mail is properly filtered. See `smtp.rb` for an example test.
-1. Point the outbound mail process you'd like filtered at 127.0.0.1:2525
+1. Configure the outbound mail process you'd like filtered at this new smtpd on 127.0.0.1:2525.
 
 # Running tests
 You might also run the test suite to ensure things are working at least on the surface: `rake test`
