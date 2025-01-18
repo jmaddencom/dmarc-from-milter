@@ -17,6 +17,13 @@ class DmarcFilterTest < Minitest::Test
   end
 
   def test_dmarc_various_domains
+    bad_dmarc_record1 = DMARC::Record.new({ v: :DMARC1, p: :reject })
+    bad_dmarc_record2 = DMARC::Record.new({ v: :DMARC1, p: :none, adkim: :s })
+
+    DMARC::Record.expects(:query).with("gmail.com").returns(bad_dmarc_record1)
+    DMARC::Record.expects(:query).with("aol.com").returns(bad_dmarc_record2)
+    DMARC::Record.expects(:query).with("freelists.org").returns(nil)
+
     assert @dmf.dmarc?("gmail.com")
     assert @dmf.dmarc?("aol.com")
     refute @dmf.dmarc?("freelists.org")
@@ -30,6 +37,7 @@ class DmarcFilterTest < Minitest::Test
   end
 
   def test_dmarc_nxdomain
+    # FIXME: stub in whatever nxdomain looks like here
     refute @dmf.dmarc?("lkasdjfalskdfjasldfkjasdlkfjsadflksaj.alskajfsaljd")
   end
 
