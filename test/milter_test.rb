@@ -37,8 +37,9 @@ class DmarcFilterTest < Minitest::Test
   end
 
   def test_dmarc_nxdomain
-    # FIXME: stub in whatever nxdomain looks like here
-    refute @dmf.dmarc?("lkasdjfalskdfjasldfkjasdlkfjsadflksaj.alskajfsaljd")
+    DMARC::Record.expects(:query).with("asdf.asdf").returns(nil)
+
+    refute @dmf.dmarc?("asdf.asdf")
   end
 
   def test_dmarc_retries_query_failure_eventually_returns_true
