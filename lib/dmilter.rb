@@ -74,12 +74,12 @@ class DmarcFilter
 
     return false if r.nil?
 
-    r.p.to_s == "reject" ||
-      r.p.to_s == "quarantine" ||
-      r.aspf.to_s == "s" ||
-      r.adkim.to_s == "s" ||
-      r.sp.to_s == "reject" ||
-      r.sp.to_s == "quarantine" ||
+    r.p == :reject ||
+      r.p == :quarantine ||
+      r.aspf == :s ||
+      r.adkim == :s ||
+      r.sp == :reject ||
+      r.sp == :quarantine ||
       OPTS["other_bad_domains"].include?(domain)
   end
 end
