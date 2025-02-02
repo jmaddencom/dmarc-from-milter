@@ -2,6 +2,7 @@ require "resolv-replace"
 require "dmarc"
 require "mail"
 require "milter"
+require "public_suffix"
 require "yaml"
 
 OPTS = YAML.load_file(File.join(File.dirname(__FILE__), "../config.yml")).to_h || abort
@@ -33,14 +34,15 @@ class DmarcFilter
   def eval(from_header)
     begin
       address = Mail::Address.new(from_header)
-      domain = address.domain
+      host = address.domain
     rescue Mail::Field::IncompleteParseError
       warn "Failure to parse the From header value, assuming dmarc without evidence"
       warn "Header: #{from_header}"
       assume_dmarc = true
     end
+    domain = PublicSuffix.domain(host)
 
-    return fixed_from(from_header) if assume_dmarc || dmarc?(domain)
+    return fixed_from(from_header) if assume_dmarc || dmarc?(host) || dmarc?(domain)
 
     from_header
   end
@@ -76,6 +78,9 @@ class DmarcFilter
 
     return false if r.nil?
 
+    # This is technically incorrect but sufficient for our use. "sp" is the subdomain policy
+    # so we should instead only return true in cases where the subdomain doesn't reject or
+    # is missing a record but the domain has sp=reject. Risking over-classifying is simpler though.
     r.p == :reject ||
       r.p == :quarantine ||
       r.aspf == :s ||

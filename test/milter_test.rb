@@ -89,4 +89,15 @@ class DmarcFilterTest < Minitest::Test
 
     assert_equal @our_address, dmf.eval("invalid_fromline@some-domain.tld>")
   end
+
+  # Cover the case of a subdomain that isn't rejecting but the parent domain is (via sp=reject)
+  # This should be modified once https://github.com/trailofbits/dmarc/issues/26 is resolved
+  def test_dmarc_found_on_parent_domain_but_not_subdomain
+    hostname = "sub.outbound.some-other-domain.tld"
+    bad_dmarc_record1 = DMARC::Record.new({ v: :DMARC1, sp: :reject })
+    DMARC::Record.expects(:query).with(hostname).returns(nil)
+    DMARC::Record.expects(:query).with("some-other-domain.tld").returns(bad_dmarc_record1)
+
+    assert @dmf.eval("Jane Doe <jdoe@sub.outbound.some-other-domain.tld>")
+  end
 end
