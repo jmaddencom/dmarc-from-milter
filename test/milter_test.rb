@@ -30,8 +30,7 @@ class DmarcFilterTest < Minitest::Test
   end
 
   def test_dmarc_bad_domains
-    ok_dmarc_record = DMARC::Record.new({ v: :DMARC1, p: nil, rua: nil })
-    DMARC::Record.expects(:query).with("some-domain-that-acts-like-dmarc.tld").returns(ok_dmarc_record)
+    DMARC::Record.expects(:query).never
 
     assert @dmf.dmarc?("some-domain-that-acts-like-dmarc.tld")
   end
