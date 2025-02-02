@@ -3,6 +3,7 @@ source "https://rubygems.org".freeze
 gem "dmarc"
 gem "mail"
 gem "milter"
+gem "public_suffix"
 gem "resolv-replace"
 
 group :test, :development do
