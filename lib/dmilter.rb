@@ -59,6 +59,8 @@ class DmarcFilter
   end
 
   def dmarc?(domain)
+    return true if OPTS["other_bad_domains"].include?(domain)
+
     tries = 0
     begin
       r = DMARC::Record.query(domain)
@@ -79,8 +81,7 @@ class DmarcFilter
       r.aspf == :s ||
       r.adkim == :s ||
       r.sp == :reject ||
-      r.sp == :quarantine ||
-      OPTS["other_bad_domains"].include?(domain)
+      r.sp == :quarantine
   end
 end
 
